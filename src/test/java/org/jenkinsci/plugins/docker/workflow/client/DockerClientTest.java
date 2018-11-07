@@ -52,7 +52,7 @@ public class DockerClientTest {
         TaskListener taskListener = StreamTaskListener.fromStderr();
         Launcher.LocalLauncher launcher = new Launcher.LocalLauncher(taskListener);
 
-        dockerClient = new DockerClient(launcher, null, null);
+        dockerClient = DockerClient.newClient(launcher, null, null);
     }
 
     @Test

@@ -52,7 +52,7 @@ public class DockerTestUtil {
         } catch (IOException x) {
             Assume.assumeNoException("have Docker installed", x);
         }
-        DockerClient dockerClient = new DockerClient(localLauncher, null, null);
+        DockerClient dockerClient = DockerClient.newClient(localLauncher, null, null);
         Assume.assumeFalse("Docker version not < " + minimumVersion.toString(), dockerClient.version().isOlderThan(minimumVersion));
     }
 

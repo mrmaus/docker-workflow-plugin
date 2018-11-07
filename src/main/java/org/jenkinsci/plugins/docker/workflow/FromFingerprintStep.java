@@ -125,7 +125,7 @@ public class FromFingerprintStep extends AbstractStepImpl {
                 // Fortunately, Docker uses the same EnvVar syntax as Jenkins :)
                 fromImage = Util.replaceMacro(fromImage, step.getBuildArgs());
             }
-            DockerClient client = new DockerClient(launcher, node, step.toolName);
+            DockerClient client = DockerClient.newClient(launcher, node, step.toolName);
             String descendantImageId = client.inspectRequiredField(env, step.image, ".Id");
             if (fromImage.equals("scratch")) { // we just made a base image
                 DockerFingerprints.addFromFacet(null, descendantImageId, run);

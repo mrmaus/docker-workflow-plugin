@@ -105,7 +105,7 @@ public class WithContainerStep extends AbstractStepImpl {
     }
 
     private static void destroy(String container, Launcher launcher, Node node, EnvVars launcherEnv, String toolName) throws Exception {
-        new DockerClient(launcher, node, toolName).stop(launcherEnv, container);
+        DockerClient.newClient(launcher, node, toolName).stop(launcherEnv, container);
     }
 
     public static class Execution extends AbstractStepExecutionImpl {
@@ -136,7 +136,7 @@ public class WithContainerStep extends AbstractStepImpl {
             workspace.mkdirs(); // otherwise it may be owned by root when created for -v
             String ws = workspace.getRemote();
             toolName = step.toolName;
-            DockerClient dockerClient = new DockerClient(launcher, node, toolName);
+            DockerClient dockerClient = DockerClient.newClient(launcher, node, toolName);
 
             VersionNumber dockerVersion = dockerClient.version();
             if (dockerVersion != null) {

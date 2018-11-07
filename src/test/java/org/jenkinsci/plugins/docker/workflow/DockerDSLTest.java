@@ -132,7 +132,7 @@ public class DockerDSLTest {
                 WorkflowRun b = p.getLastBuild();
                 story.j.assertLogContains("Require method GET POST OPTIONS", story.j.assertBuildStatusSuccess(story.j.waitForCompletion(b)));
                 story.j.assertLogContains("the answer is 42", b);
-                DockerClient client = new DockerClient(new Launcher.LocalLauncher(StreamTaskListener.NULL), null, null);
+                DockerClient client = DockerClient.newClient(new Launcher.LocalLauncher(StreamTaskListener.NULL), null, null);
                 String httpdIID = client.inspect(new EnvVars(), "httpd:2.4.12", ".Id");
                 Fingerprint f = DockerFingerprints.of(httpdIID);
                 assertNotNull(f);
@@ -233,7 +233,7 @@ public class DockerDSLTest {
                 WorkflowRun b = p.getLastBuild();
                 story.j.assertLogContains("Require method GET POST OPTIONS", story.j.assertBuildStatusSuccess(story.j.waitForCompletion(b)));
                 story.j.assertLogContains("the answer is 42", b);
-                DockerClient client = new DockerClient(new Launcher.LocalLauncher(StreamTaskListener.NULL), null, null);
+                DockerClient client = DockerClient.newClient(new Launcher.LocalLauncher(StreamTaskListener.NULL), null, null);
                 String httpdIID = client.inspect(new EnvVars(), "httpd:2.4.12", ".Id");
                 Fingerprint f = DockerFingerprints.of(httpdIID);
                 assertNotNull(f);
@@ -257,7 +257,7 @@ public class DockerDSLTest {
                                 "  sh \"docker logs ${c.id}\"" +
                                 "}", true));
                 story.j.assertBuildStatusSuccess(p.scheduleBuild2(0));
-                DockerClient client = new DockerClient(new Launcher.LocalLauncher(StreamTaskListener.NULL), null, null);
+                DockerClient client = DockerClient.newClient(new Launcher.LocalLauncher(StreamTaskListener.NULL), null, null);
                 String mavenIID = client.inspect(new EnvVars(), "maven:3.3.9-jdk-8", ".Id");
                 Fingerprint f = DockerFingerprints.of(mavenIID);
                 assertNotNull(f);
@@ -282,7 +282,7 @@ public class DockerDSLTest {
                     "  echo \"built ${built.id}\"\n" +
                     "}", true));
                 WorkflowRun b = story.j.assertBuildStatusSuccess(p.scheduleBuild2(0));
-                DockerClient client = new DockerClient(new Launcher.LocalLauncher(StreamTaskListener.NULL), null, null);
+                DockerClient client = DockerClient.newClient(new Launcher.LocalLauncher(StreamTaskListener.NULL), null, null);
                 String ancestorImageId = client.inspect(new EnvVars(), "hello-world", ".Id");
                 String descendantImageId1 = client.inspect(new EnvVars(), "hello-world-stuff", ".Id");
                 story.j.assertLogContains("built hello-world-stuff", b);
@@ -361,7 +361,7 @@ public class DockerDSLTest {
 // It can be re-added when that is fixed
 
                 WorkflowRun b = story.j.assertBuildStatusSuccess(p.scheduleBuild2(0));
-                DockerClient client = new DockerClient(new Launcher.LocalLauncher(StreamTaskListener.NULL), null, null);
+                DockerClient client = DockerClient.newClient(new Launcher.LocalLauncher(StreamTaskListener.NULL), null, null);
                 String descendantImageId1 = client.inspect(new EnvVars(), "hello-world-stuff-arguments", ".Id");
                 story.j.assertLogContains("built hello-world-stuff-arguments", b);
                 story.j.assertLogNotContains(" --no-cache ", b);
@@ -389,7 +389,7 @@ public class DockerDSLTest {
                         "}", true));
 
                 WorkflowRun b = story.j.assertBuildStatusSuccess(p.scheduleBuild2(0));
-                DockerClient client = new DockerClient(new Launcher.LocalLauncher(StreamTaskListener.NULL), null, null);
+                DockerClient client = DockerClient.newClient(new Launcher.LocalLauncher(StreamTaskListener.NULL), null, null);
                 String descendantImageId1 = client.inspect(new EnvVars(), "hello-world-stuff-arguments", ".Id");
                 story.j.assertLogContains("built hello-world-stuff-arguments", b);
                 story.j.assertLogContains(" --pull ", b);

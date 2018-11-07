@@ -89,7 +89,7 @@ public class FromFingerprintStepTest {
                 WorkflowJob p = story.j.jenkins.createProject(WorkflowJob.class, projectName);
                 p.setDefinition(new CpsFlowDefinition(piplineCode, true));
                 WorkflowRun b = story.j.assertBuildStatusSuccess(p.scheduleBuild2(0));
-                DockerClient client = new DockerClient(new LocalLauncher(StreamTaskListener.NULL), null, null);
+                DockerClient client = DockerClient.newClient(new LocalLauncher(StreamTaskListener.NULL), null, null);
                 String ancestorImageId = client.inspect(new EnvVars(), "hello-world", ".Id");
                 story.j.assertLogContains("built from-with-arg", b);
                 story.j.assertLogContains(ancestorImageId.replaceFirst("^sha256:", "").substring(0, 12), b);
