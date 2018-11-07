@@ -83,7 +83,7 @@ public class DockerClient {
     private final @CheckForNull Node node;
     private final @CheckForNull String toolName;
 
-    private DockerClient(@Nonnull Launcher launcher, @CheckForNull Node node, @CheckForNull String toolName) {
+    DockerClient(@Nonnull Launcher launcher, @CheckForNull Node node, @CheckForNull String toolName) {
         this.launcher = launcher;
         this.node = node;
         this.toolName = toolName;
@@ -96,7 +96,10 @@ public class DockerClient {
     public static DockerClient newClient(@Nonnull Launcher launcher,
                                          @CheckForNull Node node,
                                          @CheckForNull String toolName) {
-        return new DockerClient(launcher, node, toolName);
+        if (launcher.isUnix()) {
+            return new DockerClient(launcher, node, toolName);
+        }
+        return new WindowsDockerClient(launcher, node, toolName);
     }
 
     /**
