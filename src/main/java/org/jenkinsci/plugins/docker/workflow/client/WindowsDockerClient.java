@@ -15,4 +15,9 @@ class WindowsDockerClient extends DockerClient {
     WindowsDockerClient(@Nonnull Launcher launcher, @CheckForNull Node node, @CheckForNull String toolName) {
         super(launcher, node, toolName);
     }
+
+    @Override
+    String defaultVolumeFlags() {
+        return ":rw";
+    }
 }

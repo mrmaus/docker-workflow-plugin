@@ -128,7 +128,7 @@ public class DockerClient {
             argb.add("-w", workdir);
         }
         for (Map.Entry<String, String> volume : volumes.entrySet()) {
-            argb.add("-v", volume.getKey() + ":" + volume.getValue() + ":rw,z");
+            argb.add("-v", volume.getKey() + ":" + volume.getValue() + defaultVolumeFlags());
         }
         for (String containerId : volumesFromContainers) {
             argb.add("--volumes-from", containerId);
@@ -145,6 +145,10 @@ public class DockerClient {
         } else {
             throw new IOException(String.format("Failed to run image '%s'. Error: %s", image, result.getErr()));
         }
+    }
+
+    String defaultVolumeFlags() {
+        return ":rw,z";
     }
 
     public List<String> listProcess(@Nonnull EnvVars launchEnv, @Nonnull String containerId) throws IOException, InterruptedException {
